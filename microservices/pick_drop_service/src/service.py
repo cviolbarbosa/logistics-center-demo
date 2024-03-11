@@ -104,7 +104,7 @@ def main():
             
         
 # STEP 2
-#   It is not perfomred here. A path planner service is called by helyos core to plan the path to the target. 
+#   It is not performed here. A path planner service is called by helyos core to plan the path to the target. 
 #   The request data is set by the orchestration field in the response of the previous step.
 
 # STEP 3
