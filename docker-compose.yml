@@ -211,7 +211,10 @@ services:
 
         ports: 
             - 5672:5672          
-            - 15672:15672        
+            - 15672:15672
+
+        volumes:
+            - rbmq_data:/var/lib/rabbitmq/mnesia/
 
         networks:
             - control-tower-net
@@ -256,7 +259,7 @@ services:
 
 
     helyos_core:
-        image: helyosframework/helyos_core:2.0.2
+        image: helyosframework/helyos_core:2.0.4
 
         ports:
             - 5002:5002  # Websocket
@@ -284,7 +287,9 @@ services:
             # RABBITMQ 
             - RBMQ_HOST=local_message_broker 
             - RBMQ_PORT=5672
-            - RBMQ_API_PORT=15672       
+            - RBMQ_API_PORT=15672     
+            - TTL_VISUAL_MSG=500  
+            - TTL_STATE_MSG=2000
 
 
             # RBMQ ACCOUNTS
@@ -310,4 +315,7 @@ networks:
 
 volumes:
     postgres_data:
+        external: false
+
+    rbmq_data:
         external: false
