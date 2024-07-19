@@ -118,7 +118,7 @@ services:
 
 
     agent_simulator_1:
-        image: helyosframework/helyos_agent_slim_simulator:0.7.5
+        image: helyosframework/helyos_agent_slim_simulator:0.7.8
 
         volumes:
             - ./geometry_tractor.json:/app/geometry.json
@@ -138,8 +138,8 @@ services:
             - UPDATE_RATE=10
 
             # RABBITMQ 
-            - RABBITMQHOST=local_message_broker 
-            - RABBITMQPORT=5672
+            - RBMQ_HOST=local_message_broker 
+            - RBMQ_PORT=5672
             - REGISTRATION_TOKEN=0001-0002-0003-0000-0004
 
         networks:
@@ -159,7 +159,7 @@ services:
 
 
     agent_simulator_2:
-        image: helyosframework/helyos_agent_slim_simulator:0.7.5
+        image: helyosframework/helyos_agent_slim_simulator:0.7.8
 
         volumes:
             - ./geometry_truck.json:/app/geometry.json
@@ -179,8 +179,8 @@ services:
             - UPDATE_RATE=10
 
             # RABBITMQ 
-            - RABBITMQHOST=local_message_broker 
-            - RABBITMQPORT=5672
+            - RBMQ_HOST=dfasdfafs 
+            - RBMQ_PORT=5672
             - REGISTRATION_TOKEN=0001-0002-0003-0000-0004
 
         networks:
@@ -296,7 +296,7 @@ services:
             - CREATE_RBMQ_ACCOUNTS=True
             - RBMQ_ADMIN_USERNAME=${HELYOS_RBMQ_USERNAME} # set if CREATE_RBMQ_ACCOUNTS is True
             - RBMQ_ADMIN_PASSWORD=${HELYOS_RBMQ_PASSWORD} # set if CREATE_RBMQ_ACCOUNTS is True
-            - AGENT_AUTO_REGISTER_TOKEN=0001-0002-0003-0000-0004
+            - AGENT_REGISTRATION_TOKEN=0001-0002-0003-0000-0004
 
         networks:
             - control-tower-net
