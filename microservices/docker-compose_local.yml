@@ -1,0 +1,97 @@
+version: '3.5'
+services:
+
+
+
+# ============================================================================
+# ============================================================================
+#                  LOCAL PATH PLANNER - WHEN TRUCKTRIX IS NOT AVAILABLE
+# ============================================================================
+# ============================================================================
+
+    local_planner_service:
+        build: 
+            context: ./clothoid_path_planner
+            dockerfile: Dockerfile
+
+        container_name: local_planner_service
+
+        ports:
+        - "9000:9000"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./clothoid_path_planner/:/app
+
+
+# ============================================================================
+# ============================================================================
+#                  AUXILIAR ASSIGNMENT PLANNER - TO HANDLE TRAILER TRANSPORTATION
+# ============================================================================
+# ============================================================================
+
+    trailer_transport_service:
+        build: 
+            context: ./trailer_transport_planner
+            dockerfile: Dockerfile
+
+        container_name: trailer_transport_service
+
+        ports:
+        - "9100:9100"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./trailer_transport_planner/:/app
+
+
+
+    pick_drop_park_service:
+        build: 
+            context: ./pick_drop_service
+            dockerfile: Dockerfile
+
+        container_name: pick_drop_park_service
+
+        ports:
+        - "9200:9200"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./pick_drop_service/:/app
+
+
+    map_service:
+        build: 
+            context: ./simplejson_map_server
+            dockerfile: Dockerfile
+
+        container_name: map_service
+
+        ports:
+        - "9300:9300"
+
+        restart: always
+
+        networks:
+        - control-tower-net
+
+        volumes:
+            - ./simplejson_map_server/:/app
+
+networks:
+    control-tower-net:
+       external: true
+           

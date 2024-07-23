@@ -1,0 +1,119 @@
+version: '3.5'
+services:
+
+
+# # ============================================================================
+# # ============================================================================
+# #                          MESSAGE-BROKER - RABBITMQ 
+# # ============================================================================
+# # ============================================================================
+    # The AWS RabbitMQ from MQ Message will be used
+    # local_message_broker:
+    #
+    #
+    #     ... 
+    #
+    #
+    #
+
+
+# # ============================================================================
+# # ============================================================================
+# #                           HELYOS - SYSTEM INTEGRATION
+# # ============================================================================
+# # ============================================================================
+    # The AWS Postgres from Beanstalk environment will be used
+    # db:
+    #
+    #
+    #     ... 
+    #
+    #
+    #
+
+    helyos_core:
+        image: helyosframework/helyos_core:2.0.4
+
+        ports:
+            - 5002:5002  # Websocket
+            - 5000:5000  # GraphQL
+            - 8080:8080  # HelyOS Dashboard
+
+
+        volumes:
+            - ./settings/config:/etc/helyos/config/
+            - ./settings/db_initial_data/:/etc/helyos/db_initial_data/
+            - ./settings/rsa_keys/helyos_private.key:/etc/helyos/.ssl_keys/helyos_private.key:ro
+            - ./settings/rsa_keys/helyos_public.key:/etc/helyos/.ssl_keys/helyos_public.key:ro
+            - ./settings/aws_rbmq_ca_certificate.pem:/etc/helyos/.ssl_keys/ca_certificate.pem # for production
+
+        environment:
+            # DATABASE 
+            - PGDATABASE=autotruck 
+            - PGHOST=${RDS_HOSTNAME} 
+            - PGPORT=${RDS_PORT}
+            - PGUSER=${RDS_USERNAME} 
+            - PGPASSWORD=${RDS_PASSWORD}
+
+            # GRAPHQL VARIABLES
+            - GQLPORT=5000
+
+            # RABBITMQ 
+            - RBMQ_HOST=${RBMQ_HOSTNAME}  
+            - RBMQ_PORT=${RBMQ_PORT}
+            - RBMQ_API_PORT=${RBMQ_API_PORT}
+            - RBMQ_SSL=True      # for production
+            - RBMQ_API_SSL=True  # for production
+
+            # RBMQ ACCOUNTS
+            - CREATE_RBMQ_ACCOUNTS=True
+            - RBMQ_ADMIN_USERNAME=${HELYOS_RBMQ_USERNAME} 
+            - RBMQ_ADMIN_PASSWORD=${HELYOS_RBMQ_PASSWORD} 
+            - AGENT_REGISTRATION_TOKEN=0001-0002-0003-0000-0004
+
+        networks:
+            - control-tower-net
+
+        env_file:
+            - .env
+
+
+        # depends_on:
+        #     - db
+        #     - local_message_broker
+
+
+# # =================================================================================
+# # =================================================================================
+# #     MOCKING EXTERNAL RESOURCE MANAGER TO PROVIDE TRAILERS AND CONTAINERS POSITION
+# # =================================================================================
+# # =================================================================================
+
+    external_resource_manager:
+        image:  python:3.7-slim
+        volumes:
+            - ./register_trailers_to_yard.py:/app/register_trailers_to_yard.py
+            - ./geometry_trailer.json:/app/geometry_trailer.json
+
+        working_dir: /app
+        command: ["python","-u", "/app/register_trailers_to_yard.py"]
+
+        depends_on:
+            - helyos_core
+
+        networks:
+            - control-tower-net
+
+
+
+
+# networks:
+#     control-tower-net:
+#        external: true
+           
+# volumes:
+#     postgres_data:
+#         external: false
+
+#     rbmq_data:
+#         external: false

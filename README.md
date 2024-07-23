@@ -4,8 +4,9 @@ The [AutoTruck project](https://www.ivi.fraunhofer.de/en/research-fields/autonom
 
 Its implementation was accomplished through the use of the [helyOS framework](https://helyos-manual.readthedocs.io/en/latest/) and the TruckTrix&reg; path planner.<br>
 
-Here, we have prepared this demo version to run the application in your own computer with the aid of [Docker](https://www.docker.com/) containers.
-For this local version, the TruckTrix&reg; service was substituted by a simple clothoid path planner.
+**This repository was forked and refactored to run in the AWS cloud.**
+
+Read the original documenatation at https://github.com/helyOSFramework/logistics-center-demo.
 
  ## Core features
   * Click in the map to set the final destination to drive.
@@ -20,15 +21,22 @@ For this local version, the TruckTrix&reg; service was substituted by a simple c
 
 </br>
 
- ## To start
+ ## To start locally
  
 ```
-docker-compose up -d
+cd helyos_server
+cp .env_local .env
+docker-compose -f docker-compose_local up -d
 ```
 
 </br>
 
 ## Open the application
+
+```
+cd front-end
+docker-compose up -d
+```
 
 * Autotruck-Trucktrix web app (it will automatically connect to your local helyOS instance)
 
@@ -44,10 +52,11 @@ click [Start here] button, and load the yard_gates.
 
  ## To restart vehicle simulator
 ```
+cd simulators
  docker-compose restart agent_simulator
  ```
 
- ## To restart application
+ ## To restart any service
 
 ```
 docker-compose down -v
@@ -58,6 +67,8 @@ The (-v) will delete the database.
 </br>
 </br>
 
+
+# Deploying usin AWS Elastic Beamstalk
 
 
 # Exploring the helyOS backend
