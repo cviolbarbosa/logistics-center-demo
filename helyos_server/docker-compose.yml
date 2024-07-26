@@ -59,7 +59,7 @@ services:
             - GQLPORT=5000
 
             # RABBITMQ 
-            - RBMQ_HOST=${RBMQ_HOSTNAME}  
+            - RBMQ_HOST=${RBMQ_HOST}  
             - RBMQ_PORT=${RBMQ_PORT}
             - RBMQ_API_PORT=${RBMQ_API_PORT}
             - RBMQ_SSL=True      # for production
@@ -71,16 +71,7 @@ services:
             - RBMQ_ADMIN_PASSWORD=${HELYOS_RBMQ_PASSWORD} 
             - AGENT_REGISTRATION_TOKEN=0001-0002-0003-0000-0004
 
-        networks:
-            - control-tower-net
 
-        env_file:
-            - .env
-
-
-        # depends_on:
-        #     - db
-        #     - local_message_broker
 
 
 # # =================================================================================
@@ -101,19 +92,3 @@ services:
         depends_on:
             - helyos_core
 
-        networks:
-            - control-tower-net
-
-
-
-
-# networks:
-#     control-tower-net:
-#        external: true
-           
-# volumes:
-#     postgres_data:
-#         external: false
-
-#     rbmq_data:
-#         external: false

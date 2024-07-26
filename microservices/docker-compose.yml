@@ -21,8 +21,7 @@ services:
 
         restart: always
 
-        networks:
-        - control-tower-net
+
 
         volumes:
             - ./microservices/clothoid_path_planner/:/app
@@ -46,8 +45,7 @@ services:
 
         restart: always
 
-        networks:
-        - control-tower-net
+
 
         volumes:
             - ./microservices/trailer_transport_planner/:/app
@@ -66,8 +64,6 @@ services:
 
         restart: always
 
-        networks:
-        - control-tower-net
 
         volumes:
             - ./microservices/pick_drop_service/:/app
@@ -85,8 +81,7 @@ services:
 
         restart: always
 
-        networks:
-        - control-tower-net
+
 
         volumes:
             - ./microservices/simplejson_map_server/:/app
@@ -94,15 +89,3 @@ services:
 
 
 
-
-networks:
-    control-tower-net:
-       external: false
-           
-
-volumes:
-    postgres_data:
-        external: false
-
-    rbmq_data:
-        external: false
