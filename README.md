@@ -63,6 +63,8 @@ Note: The -v flag will delete the database.
 
 ## Deploying on AWS Cloud - Elastic Beanstalk
 
+All commands and scripts should be executed in the helyos_server directory.
+
 ### Step 1: Install AWS CLI and EB CLI
 
 - Install the AWS CLI following [these instructions](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
