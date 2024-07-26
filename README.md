@@ -17,7 +17,7 @@ The AutoTruck project automates trucks in logistic centers using helyOS and Truc
 This repository is a fork from the original and has been refactored to run on AWS cloud.
 
 
-## Local Setup
+## To Run the Server Locally
 
 To start the helyOS server locally:
 
@@ -61,7 +61,7 @@ docker-compose up
 
 Note: The -v flag will delete the database.
 
-## Deploying on AWS Elastic Beanstalk
+## Deploying on AWS Cloud - Elastic Beanstalk
 
 ### Step 1: Install AWS CLI and EB CLI
 
